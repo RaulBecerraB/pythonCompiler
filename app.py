@@ -1,60 +1,30 @@
-from collections import deque
+from utils import procesar_expresion
 
-# Convierte una expresión infija a postfija
-def infija_posfija(expresion):
-    salida = []
-    pila = deque()
-    precedencia = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3, '√': 3, '(': 0}
-    tokens = expresion.split()
+def main():
+    print("Calculadora de notaciones infija, prefija y postfija")
+    print("Operaciones soportadas: +, -, *, /, ^, √")
+    print("Agrupaciones soportadas: (), [], {}")
+    print("Ingrese 'salir' para terminar")
     
-    for token in tokens:
-        if token.isnumeric():
-            salida.append(token)
-        elif token == '(':
-            pila.append(token)
-        elif token == ')':
-            while pila and pila[-1] != '(':
-                salida.append(pila.pop())
-            pila.pop()  # Eliminar el '(' de la pila
+    while True:
+        expresion = input("\nIngrese una expresión infija: ")
+        if expresion.lower() == 'salir':
+            break
+        
+        resultado = procesar_expresion(expresion)
+        
+        if "error" in resultado:
+            print(f"\n{resultado['error']}")
+            if "infija" in resultado:
+                print(f"Infija: {resultado['infija']}")
+                print(f"Postfija: {resultado['postfija']}")
+                print(f"Prefija: {resultado['prefija']}")
         else:
-            while pila and precedencia[pila[-1]] >= precedencia[token]:
-                salida.append(pila.pop())
-            pila.append(token)
-    
-    while pila:
-        salida.append(pila.pop())
-    
-    return ' '.join(salida)
+            print("\nNotaciones:")
+            print(f"Infija: {resultado['infija']}")
+            print(f"Postfija: {resultado['postfija']}")
+            print(f"Prefija: {resultado['prefija']}")
+            print(f"Resultado: {resultado['resultado']}")
 
-# Resuelve una expresión en notación postfija
-def res_postfija(expresion):
-    stack = []
-    tokens = expresion.split()
-    
-    for token in tokens:
-        if token.isnumeric():
-            stack.append(int(token))
-        else:
-            b = stack.pop()
-            a = stack.pop()
-            if token == '+':
-                stack.append(a + b)
-            elif token == '-':
-                stack.append(a - b)
-            elif token == '*':
-                stack.append(a * b)
-            elif token == '/':
-                stack.append(a / b)
-            elif token == '^':
-                stack.append(a ** b)
-            elif token == '√':
-                stack.append(a ** (1/b))
-    
-    return stack.pop()
-
-#expresion_infija = "( 3 + 4 / 3 - 1 * 5 ) + 8 / 2"
-#expresion_postfija = infija_posfija(expresion_infija)
-#print(f"Expresión postija: {expresion_postfija}")
-
-posfija = "3 5 + 2 * 8 4 / -"
-print(res_postfija(posfija))
+if __name__ == "__main__":
+    main()
