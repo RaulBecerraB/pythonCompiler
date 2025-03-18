@@ -16,7 +16,8 @@ def infija_a_postfija(tokens):
             pila.append(token)
         # Si es un paréntesis de cierre
         elif token in ')]}':
-            parentesis_correspondiente = {')', '(', ']', '[', '}', '{'}[token]
+            # Diccionario para mapear paréntesis de cierre a sus correspondientes de apertura
+            parentesis_correspondiente = {')': '(', ']': '[', '}': '{'}[token]
             while pila and pila[-1] not in '([{':
                 salida.append(pila.pop())
             if pila and pila[-1] == parentesis_correspondiente:
