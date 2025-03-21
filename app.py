@@ -1,3 +1,15 @@
+'''
+Lenguajes y Autómatas II
+"Notación Infija, Prefija y Postfija"
+Becerra Barceló José Raúl. 
+Diaz Sanches Edwin Ulises. 
+Ferrer Chacón Diego Felipe. 
+7SA 
+E21080774 
+E21081367 
+E21080738
+'''
+
 from utils import procesar_expresion
 
 def main():
